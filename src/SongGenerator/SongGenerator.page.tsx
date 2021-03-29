@@ -10,7 +10,8 @@ import { range, chunk } from "lodash";
 
 const notes = Object.values(Note) as Note[];
 
-const mapGradeToNote = (grade: number) => notes[Math.floor(grade * (7 / 10))];
+const mapGradeToNote = (grade: number, songKey: Note) =>
+  majorScales[songKey][Math.floor(grade * (7 / 10))];
 
 const generateNote = (key: Note): Note => {
   return randomArrayItem(majorScales[key]);
@@ -44,7 +45,9 @@ export const SongGeneratorPage = () => {
 
     const notes = gradeChunks.map((grades) => {
       return grades.map((grade, index) => {
-        const { fret, string } = generateFretAndString(mapGradeToNote(grade));
+        const { fret, string } = generateFretAndString(
+          mapGradeToNote(grade, songKey)
+        );
         return {
           beat: index * 2 + 1,
           fret,
