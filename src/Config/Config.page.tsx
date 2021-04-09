@@ -50,7 +50,7 @@ const RandomEnabled = () => {
           }
         }}
       />
-      <span>Use Random</span>
+      <span>Randomness</span>
     </label>
   );
 };
@@ -144,15 +144,30 @@ export const GradesPage = () => {
   const config = useContext(ConfigContext);
   return (
     <>
+      <div className="prose my-10">
+        <h1>Elempiar's Tab Generator</h1>
+        <p>
+          This tool helps you generate guitar tabs in case you're stuck writing
+          your next masterpiece.
+        </p>
+      </div>
       <div className="prose">
-        <h1>Song generator</h1>
-        <p>De song generator genereert songs</p>
+        <p>
+          Start by selecting the key your song is in. Don't have a key yet? Just
+          generate one!
+        </p>
       </div>
       <KeySelect />
+      <div className="prose">
+        <p>
+          Now choose whether you want to completely randomize the tab, or to use
+          your own input as a base for the tab.
+        </p>
+      </div>
       <RandomEnabled />
       {config.random === false ? <GradesForm /> : <RandomAmount />}
       <Link to="/song-generator" className={blueButtonClass + " w-36"}>
-        Generate Song
+        Generate Tab
       </Link>
     </>
   );
