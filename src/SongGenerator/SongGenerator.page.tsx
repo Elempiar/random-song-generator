@@ -1,6 +1,6 @@
 import { useContext, useMemo, useState } from "react";
 import { ConfigContext } from "../Config/Config.provider";
-import { TabWriterNote, Note, Notation, notes } from "./Song.type";
+import { TabWriterNote, Note, Notation } from "./Song.type";
 import createTab from "tabwriter";
 import { Link } from "react-router-dom";
 import { randomArrayItem } from "./randomArrayItem";
