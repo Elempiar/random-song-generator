@@ -1,30 +1,38 @@
 import React, { createContext, useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
+import { Note } from "../SongGenerator/Song.type";
 
 interface Grade {
   grade?: number;
   id: string;
 }
 
-interface GradesContext {
+interface Config {
   grades: Grade[];
+  key: Note;
   updateGrade: (id: string, grade: number) => void;
   createGrade: () => void;
   removeGrade: (id: string) => void;
+  updateKey: (key: Note) => void;
+  random: false | number;
+  setRandom: (random: false | number) => void;
 }
 
 // @ts-ignore
-export const GradesContext = createContext<GradesContext>({});
+export const ConfigContext = createContext<Config>({});
 
-interface GradesProviderProps {}
+interface ConfigProviderProps {}
 
-export const GradesProvider = ({
+export const ConfigProvider = ({
   children,
-}: React.PropsWithChildren<GradesProviderProps>) => {
+}: React.PropsWithChildren<ConfigProviderProps>) => {
   const [grades, setGrades] = useState<Grade[]>(() => {
     const gradesFromStorage = localStorage.getItem("grades");
     return gradesFromStorage ? JSON.parse(gradesFromStorage) : [];
   });
+
+  const [key, setKey] = useState<Note>(Note.A);
+  const [random, setRandom] = useState<false | number>(96);
 
   useEffect(() => {
     localStorage.setItem("grades", JSON.stringify(grades, null, 2));
@@ -59,15 +67,19 @@ export const GradesProvider = ({
   };
 
   return (
-    <GradesContext.Provider
+    <ConfigContext.Provider
       value={{
         grades,
         updateGrade,
         removeGrade,
         createGrade,
+        key,
+        updateKey: setKey,
+        random,
+        setRandom,
       }}
     >
       {children}
-    </GradesContext.Provider>
+    </ConfigContext.Provider>
   );
 };

@@ -1,43 +1,33 @@
-import { useContext, useEffect, useMemo, useState } from "react";
-import { GradesContext } from "../Grades/Grades.provider";
-import { TabWriterNote, Note, PitchedNote, Notation } from "./Song.type";
+import { useContext, useMemo, useState } from "react";
+import { ConfigContext } from "../Config/Config.provider";
+import { TabWriterNote, Note, Notation, notes } from "./Song.type";
 import createTab from "tabwriter";
 import { Link } from "react-router-dom";
 import { randomArrayItem } from "./randomArrayItem";
 import { majorScales } from "./majorScales";
 import { notations } from "./notations";
 import { range, chunk } from "lodash";
+import { BlueButton } from "../Button";
 
-const notes = Object.values(Note) as Note[];
+const mapGradeToNote = (songKey: Note, grade: number) =>
+  majorScales[songKey][Math.floor(grade * (6 / 10))];
 
-const mapGradeToNote = (grade: number, songKey: Note) =>
-  majorScales[songKey][Math.floor(grade * (7 / 10))];
+const generateFretAndString = (randomNote: Note): Notation =>
+  randomArrayItem(notations[randomNote]);
 
-const generateNote = (key: Note): Note => {
-  return randomArrayItem(majorScales[key]);
-};
-
-const generateFretAndString = (key: Note): Notation => {
-  const note = generateNote(key);
-  const notation = randomArrayItem(notations[note]);
-  return notation;
-};
-
-const generateRandomSongKey = (): Note => {
-  return randomArrayItem(notes);
-};
+const generateRandomGrades = (randomAmount: number) =>
+  range(randomAmount).map(() => Math.floor(Math.random() * 10));
 
 export const SongGeneratorPage = () => {
-  const [songKey, setSongKey] = useState<Note>(generateRandomSongKey);
-  const gradesContext = useContext(GradesContext);
+  const config = useContext(ConfigContext);
 
-  const regenerateSong = () => {
-    setSongKey(generateRandomSongKey());
-  };
+  const [randomId, setRandomId] = useState(0);
 
   const songLines = useMemo(() => {
-    // const finalGrades = gradesContext.grades.map(({ grade }) => grade);
-    const finalGrades = range(100).map(() => Math.floor(Math.random() * 10));
+    const finalGrades =
+      config.random === false
+        ? config.grades.map(({ grade }) => grade)
+        : generateRandomGrades(config.random);
     const gradeChunks = chunk(
       finalGrades.filter((grade): grade is number => typeof grade === "number"),
       16
@@ -46,7 +36,7 @@ export const SongGeneratorPage = () => {
     const notes = gradeChunks.map((grades) => {
       return grades.map((grade, index) => {
         const { fret, string } = generateFretAndString(
-          mapGradeToNote(grade, songKey)
+          mapGradeToNote(config.key, grade)
         );
         return {
           beat: index * 2 + 1,
@@ -57,15 +47,64 @@ export const SongGeneratorPage = () => {
     });
 
     return notes.map((notes: TabWriterNote[]): string[] => createTab(notes));
-  }, [songKey]);
+  }, [config.key, randomId]);
 
   return (
-    <div>
-      <Link to="/">Edit grades</Link>
-      <button onClick={regenerateSong}>Regenerate Song</button>
-      <div>key: {songKey}</div>
+    <div className="space-y-8">
+      <div className="flex space-x-4">
+        <Link
+          to="/"
+          className={
+            "bg-gray-200 inline-flex items-center p-2 justify-center rounded border-gray-400 border"
+          }
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          <span>Change config</span>
+        </Link>
+        <BlueButton
+          className="space-x-2"
+          onClick={() => {
+            setRandomId((id) => id + 1);
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            />
+          </svg>
+          <span>Regenerate Song</span>
+        </BlueButton>
+        <div className="flex items-center content-center">
+          <div className="p-3 uppercase font-bold text-xs border-r border-blue-300">
+            key
+          </div>
+          <div className="p-2 font-bold">{config.key}</div>
+        </div>
+      </div>
       {songLines.map((songLine) => (
-        <pre className="mb-8">{songLine.join("\n")}</pre>
+        <pre>{songLine.join("\n")}</pre>
       ))}
     </div>
   );
