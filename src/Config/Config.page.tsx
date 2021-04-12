@@ -5,6 +5,10 @@ import { randomArrayItem } from "../SongGenerator/randomArrayItem";
 import { Note, notes } from "../SongGenerator/Song.type";
 import { ConfigContext } from "./Config.provider";
 
+<head>
+  <title>Tab generator</title>
+</head>;
+
 const KeySelect = () => {
   const config = useContext(ConfigContext);
 
@@ -29,7 +33,7 @@ const KeySelect = () => {
           config.updateKey(randomArrayItem(notes));
         }}
       >
-        Randomize Key
+        Randomise Key
       </Button>
     </div>
   );
@@ -41,7 +45,7 @@ const RandomEnabled = () => {
     <label className="w-36 flex space-x-2 items-center p-2 border-blue-300 border rounded bg-gray-100 cursor-pointer">
       <input
         type="checkbox"
-        checked={config.random !== false}
+        checked={config.random === false}
         onChange={() => {
           if (config.random === false) {
             config.setRandom(96);
@@ -50,7 +54,7 @@ const RandomEnabled = () => {
           }
         }}
       />
-      <span>Randomness</span>
+      <span>Custom input</span>
     </label>
   );
 };
@@ -68,7 +72,6 @@ const RandomAmount = () => {
     />
   );
 };
-
 const GradesForm = () => {
   const config = useContext(ConfigContext);
 
@@ -151,7 +154,7 @@ export const GradesPage = () => {
           your next masterpiece.
         </p>
       </div>
-      <div className="prose">
+      <div className="prose pt-10">
         <p>
           Start by selecting the key your song is in. Don't have a key yet? Just
           generate one!
@@ -159,16 +162,36 @@ export const GradesPage = () => {
       </div>
       <KeySelect />
       <div className="prose">
-        <p>
-          Now choose whether you want to completely randomize the tab, or to use
+        <p className="pt-10">
+          Now choose whether you want to completely randomise the tab, or to use
           your own input as a base for the tab.
+        </p>
+        <p>
+          For example: Keep track of your mood for a week. Rate it on a scale of
+          1-10 every few hours, and use these scores as a base for your tab!
         </p>
       </div>
       <RandomEnabled />
-      {config.random === false ? <GradesForm /> : <RandomAmount />}
-      <Link to="/song-generator" className={blueButtonClass + " w-36"}>
-        Generate Tab
-      </Link>
+      {config.random === false ? (
+        <div className="prose">
+          <p className="pt-10">
+            Time to add your own input! The generator converts every specific
+            input into a note on the tab. Keep in mind; you can only use numbers
+            between 0-10.
+          </p>
+          <GradesForm />
+        </div>
+      ) : (
+        <div className="prose">
+          <p className="pt-10">Choose how many notes you want in your tab.</p>
+          <RandomAmount />
+        </div>
+      )}
+      <div className="pt-10">
+        <Link to="/song-generator" className={blueButtonClass + " w-36"}>
+          Generate Tab
+        </Link>
+      </div>
     </>
   );
 };
