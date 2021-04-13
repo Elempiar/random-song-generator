@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
-import { Note } from "../SongGenerator/Song.type";
+import { Note } from "../TabGenerator/Tab.type";
 
 interface Grade {
   grade?: number;

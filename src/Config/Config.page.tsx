@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { blueButtonClass, Button } from "../Button";
-import { randomArrayItem } from "../SongGenerator/randomArrayItem";
-import { Note, notes } from "../SongGenerator/Song.type";
+import { randomArrayItem } from "../TabGenerator/randomArrayItem";
+import { Note, notes } from "../TabGenerator/Tab.type";
 import { ConfigContext } from "./Config.provider";
 
 <head>
@@ -188,7 +188,7 @@ export const GradesPage = () => {
         </div>
       )}
       <div className="pt-10">
-        <Link to="/song-generator" className={blueButtonClass + " w-36"}>
+        <Link to="/generated-tab" className={blueButtonClass + " w-36"}>
           Generate Tab
         </Link>
       </div>

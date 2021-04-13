@@ -1,4 +1,4 @@
-import { Notation, Note } from "./Song.type";
+import { Notation, Note } from "./Tab.type";
 
 export const notations: {
     [note in Note]: Notation[]

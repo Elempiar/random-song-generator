@@ -1,6 +1,6 @@
 import { useContext, useMemo, useState } from "react";
 import { ConfigContext } from "../Config/Config.provider";
-import { TabWriterNote, Note, Notation } from "./Song.type";
+import { TabWriterNote, Note, Notation } from "./Tab.type";
 import createTab from "tabwriter";
 import { Link } from "react-router-dom";
 import { randomArrayItem } from "./randomArrayItem";
@@ -18,7 +18,7 @@ const generateFretAndString = (randomNote: Note): Notation =>
 const generateRandomGrades = (randomAmount: number) =>
   range(randomAmount).map(() => Math.floor(Math.random() * 10));
 
-export const SongGeneratorPage = () => {
+export const TabGeneratorPage = () => {
   const config = useContext(ConfigContext);
 
   const [randomId, setRandomId] = useState(0);

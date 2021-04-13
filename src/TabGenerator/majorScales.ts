@@ -1,4 +1,4 @@
-import { Note } from "./Song.type";
+import { Note } from "./Tab.type";
 
 // @ts-ignore
 export const majorScales: {
