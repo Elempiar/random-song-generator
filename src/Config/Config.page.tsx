@@ -54,7 +54,7 @@ const RandomEnabled = () => {
           }
         }}
       />
-      <span>Custom input</span>
+      <span>Personalise</span>
     </label>
   );
 };
@@ -164,11 +164,11 @@ export const GradesPage = () => {
       <div className="prose">
         <p className="pt-10">
           Now choose whether you want to completely randomise the tab, or to use
-          your own input as a base for the tab.
+          your own personal input as a base for the tab.
         </p>
         <p>
           For example: Keep track of your mood for a week. Rate it on a scale of
-          1-10 every few hours, and use these scores as a base for your tab!
+          1-10 every few hours, and use these scores as a base for your tab.
         </p>
       </div>
       <RandomEnabled />
