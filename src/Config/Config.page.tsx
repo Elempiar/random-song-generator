@@ -155,12 +155,12 @@ export const GradesPage = () => {
         </p>
       </div>
       <div>
-        <Link
-          to="https://www.instagram.com/generated.tabs"
+        <a
+          href="https://www.instagram.com/generated.tabs"
           className={blueButtonClass + " w-36"}
         >
           Inspiration
-        </Link>
+        </a>
       </div>
       <div className="prose pt-10">
         <p>
