@@ -154,6 +154,14 @@ export const GradesPage = () => {
           your next masterpiece.
         </p>
       </div>
+      <div>
+        <Link
+          to="https://www.instagram.com/generated.tabs"
+          className={blueButtonClass + " w-36"}
+        >
+          Inspiration
+        </Link>
+      </div>
       <div className="prose pt-10">
         <p>
           Start by selecting the key your song is in. Don't have a key yet? Just
@@ -183,7 +191,9 @@ export const GradesPage = () => {
         </div>
       ) : (
         <div className="prose">
-          <p className="pt-10">Choose how many notes you want in your tab.</p>
+          <p className="pt-10">
+            Last but not least: choose how many notes you want in your tab.
+          </p>
           <RandomAmount />
         </div>
       )}
